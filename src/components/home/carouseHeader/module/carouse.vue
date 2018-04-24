@@ -5,16 +5,16 @@
     <CarouselItem>
       <depart-des></depart-des>
     </CarouselItem>
-    <CarouselItem :style="[carouseItemStyle,appCenterStyle]">
       <router-link to="/AppCenter">
-        <div class="router routeLink">
+    <CarouselItem :style="[carouseItemStyle,appCenterStyle]">
+        <div class="router routeLink router-back">
           <span>
             App Center
             <p>Description here</p>
           </span>
         </div>
-      </router-link>
     </CarouselItem>
+      </router-link>
     <CarouselItem :style="[carouseItemStyle,dashBoardStyle]">
       <router-link to="/DashBoard">
         <div class="router routeLink">
@@ -79,10 +79,9 @@
 
 <style scoped>
   .router {
-    position: revert;
+    position: absolute;
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.42);
     display: flex;
     flex-flow: row nowrap;
     justify-content: left;
@@ -91,9 +90,13 @@
     transition: all 800ms;
   }
 
+  .router-back{
+    background: rgba(0, 0, 0, 0.42);
+  }
+
   .router-after{
     height: 40%;
-    background: rgba(0,101,184,0.55);
+    background: rgba(0, 0, 0, 0.42);
   }
 
   .router span {

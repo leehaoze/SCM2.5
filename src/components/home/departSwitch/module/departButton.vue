@@ -1,30 +1,57 @@
 <template>
-  <span>
-    <Row>
-      <img v-if="departName==='All'" src="/src/assets/home/APPROVE%20FLOW.png" style="width: 58px">
-      <img v-if="departName==='Planning'" src="/src/assets/home/COMMON%20LINKS.png" style="width: 58px">
-      <img v-if="departName==='Purchasing'" src="/src/assets/home/DASHBOARD.png" style="width: 58px">
-      <img v-if="departName==='InventoryControl'" src="/src/assets/home/DOCUMENTS.png" style="width: 58px">
-      <img v-if="departName==='MRO'" src="/src/assets/home/DESKTOP%20APP.png" style="width: 58px">
+  <li style="margin-left: 100px;display: flex;flex-flow: column nowrap; align-items: center;">
+    <Row class="recant">
+      <div class="circle-outline">
+        <div class="circle-inline">
+          <Icon :type="iconTypes[index]" color="white" size="45" style="transform: translate(9px,5px)"></Icon>
+        </div>
+      </div>
     </Row>
-    <Row style="color: black;">
+    <Row style="margin-top: 60px;background: white;width: 100%;text-align: center">
       {{departName}}
     </Row>
-  </span>
+  </li>
 </template>
 
 <script>
   export default {
     name: "departButton",
-    props: [
-      'departName'
-    ],
-    mounted () {
-      // console.log(this.departName)
+    props: ['departName', 'index'],
+    data() {
+      return {
+        iconTypes: ['ios-world-outline', 'android-share-alt', 'home', 'monitor', 'bag']
+      }
+    },
+    computed: {
+
     }
   }
 </script>
 
 <style scoped>
+  .recant {
+    background: #4b443a;
+    height: 15px;
+    width: 180px;
+  }
+
+  .circle-outline {
+    position: absolute;
+    background: #4b443a;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    left: 27%;
+    top: -220%;
+  }
+
+  .circle-inline {
+    background: #4b443a;
+    width: 60px;
+    height: 60px;
+    border: 3px solid white;
+    border-radius: 50%;
+    transform: translate(10px, 10px);
+  }
 
 </style>

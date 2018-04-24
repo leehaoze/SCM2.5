@@ -1,119 +1,69 @@
 <template>
   <div>
-    <div class="Depart" ref="menus">
-      <ul class="menus">
-        <li v-for="(dp, index) in departs" ref="menu">
-          <!--<span class="menu-link" @click="menuSwitch(index, dp)">{{dp.departmentName}}</span>-->
-          <div class="menu-link" @click="menuSwitch(index, dp)">
-          <depart-button  :depart-name="dp.departmentName"></depart-button>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!--<div class="Table">-->
-      <!--<Table :loading="documentDataLoading" border :columns="documentDataTable" :data="docData"-->
-             <!--width="100%!important" v-on:on-row-click="click_row"></Table>-->
-      <!--<Page :total="dataCount" :page-size="pageSize" show-total show-sizer @on-change="changepage" @on-page-size-change="changesize"></Page>-->
-    <!--</div>-->
+    <span id="slider">
+    </span>
+    <ul class="switch">
+      <depart-button @click.native="menuSwitch(index,dp)" v-for="(dp,index) in departs" :depart-name="dp.departmentName"
+                     :index="index">
+
+      </depart-button>
+    </ul>
   </div>
 </template>
 
 <script>
-  import Cookie from "js-cookie"
   import DepartButton from "./module/departButton";
 
-  export default{
-    name: 'departSwitch',
+  export default {
+    name: "departSwitch",
     components: {DepartButton},
-    data () {
+    data() {
       return {
-        documentDataTable: [
-          {title: 'Title', key: 'docName', sortable: true},
-          {title: 'Description', key: 'docDesc', sortable: true},
-          {title: 'DocPath', key: 'docPath', sortable: true},
-          {title: 'Department', key: 'department', sortable: true},
-          {title: 'DocTypes', key: 'docType', sortable: true},
-          {title: 'DocNumber', key: 'docNumber', sortable: true},
-        ],
-        departs: [],
-        thisDepart: null,
-        nowIndex: 0,
-        docData: [],
-        ajaxDocumentData: [],
-        documentDataLoading: true,
-        dataCount: 0,
-        nowPage: 1,
-        pageSize: 10
+        departs: ''
+      }
+    },
+    computed: {
+      sliderTop() {
+        return '534.890625'
+      },
+      sliderLeft() {
+
       }
     },
     methods: {
-      loadDeparts(){
+      loadDeparts() {
         this.$http.get("/getDepartments.form").then((response) => {
           this.departs = response.data;
-          this.getDepartId();
-          this.defaultDepart(this.nowIndex)
         })
       },
-      getDepartId(){
-        this.thisDepart = Cookie.get("departId");
-        this.nowIndex = this.thisDepart;
-      },
-      menuSwitch(index, dp){
-        console.log(index);
-        let collections = document.querySelectorAll(".menu-link");
-        if(index !== this.nowIndex){
-          collections[this.nowIndex].style.backgroundColor = "rgba(0,0,0,0)";
-          this.nowIndex = index;
-          collections[index].style.backgroundColor = "rgba(0, 101, 184, 1)";
-          this.loadDocByDepart(this.nowIndex);
-        }
-
-      },
-      defaultDepart(){
-        console.log(this.nowIndex);
-        let collections = document.querySelectorAll(".menu-link");
-        console.log(collections);
-        collections[this.nowIndex].style.backgroundColor = "rgba(0, 101, 184, 1)";
+      menuSwitch(index, dp) {
+        $('#slider').css({
+          'transform': 'translate(' + (173 + index * 280) + 'px,-35px)'
+        })
       }
     },
-    mounted () {
-      this.loadDeparts();
-    },
-    created () {
+    mounted() {
       this.loadDeparts();
     }
-
   }
 </script>
 
 <style scoped>
-  .Depart{
-    width: 90%;
-    height: 50px;
-    margin-left: 9%;
+  .switch {
+    list-style: none;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
   }
-  .Table{
-    width: 90%;
-    margin-left: 5%;
-    margin-top: 2%;
-  }
-  .menus{
-    text-align: center;
-    list-style-type:none;
-  }
-  .menus li{
-    float: left;
-    width: 16%;
-    display:inline-block;
-    margin-right:4%;
-  }
-  .menu-link{
-    display: block;
-    width: 90px;
-    height: 80px;
-    line-height: 49px;
-    background-color: transparent;
-    color: #fff;
-    text-decoration: none;
+
+  #slider {
+    position: absolute;
+    width: 180px;
+    height: 135px;
+    background: #0d71bb;
+    border-radius: 10px;
+    transform: translate(194%, -26%);
+    transition: all 1s;
   }
 </style>
